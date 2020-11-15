@@ -15,13 +15,7 @@ export class NewLancamento extends Component {
             }
         };
 
-    }
-
-    handleSubmit(event) {
-        alert('Dados' + this.state.lancamentoData.valor);
-        event.preventDefault();
-    }
-
+    } 
 
     render() {
 
@@ -29,7 +23,7 @@ export class NewLancamento extends Component {
             <div>
                 <h3 id="tabelLabel" >Novo Lançamento</h3>
                 <br />
-                <FormLancamento isEdit={false} />
+                <FormLancamento isEdit={false} history={this.props.history} />
             </div>
 
         )

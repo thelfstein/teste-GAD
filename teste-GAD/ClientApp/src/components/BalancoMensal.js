@@ -8,8 +8,8 @@ import { Button } from 'reactstrap'
 
 
 
-export class Lancamentos extends Component {
-    static displayName = Lancamentos.name;
+export class BalancoMensal extends Component {
+    static displayName = BalancoMensal.name;
 
     constructor(props) {
         super(props);

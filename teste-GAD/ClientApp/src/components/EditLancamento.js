@@ -28,7 +28,7 @@ export class EditLancamento extends Component {
         let content
         
         content = this.state.loading ? <p><em>Carregando...</em></p> :
-            <FormLancamento isEdit={true} data={this.state.lancamentoData} />
+            <FormLancamento isEdit={true} data={this.state.lancamentoData} history={this.props.history}/>
 
         return (
             <div>
@@ -45,7 +45,10 @@ export class EditLancamento extends Component {
 
             this.setState({ lancamentoData: data, loading: false });
         }).catch(err => {
-            console.log(err.response);
+            if (err.response.status === 404)
+                this.props.history.push('/');
+
+            alert(err.message);
         });
     }
 }

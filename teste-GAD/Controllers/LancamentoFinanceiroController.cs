@@ -61,6 +61,8 @@ namespace teste_GAD.Controllers
         {
             try
             {
+                lancamento.Status = false;
+
                 _ctx.LancamentosFinanceiros.Add(lancamento);
 
                 await _ctx.SaveChangesAsync();
@@ -87,6 +89,8 @@ namespace teste_GAD.Controllers
                 if (oldLancamento.Status)
                     throw new Exception("O lançamento já foi conciliado");
 
+                _ctx.Entry(oldLancamento).State = EntityState.Detached;
+
                 _ctx.Update(lancamento);
 
                 await _ctx.SaveChangesAsync();
@@ -111,6 +115,8 @@ namespace teste_GAD.Controllers
 
                 if (oldLancamento.Status)
                     throw new Exception("O lançamento já foi conciliado");
+
+                _ctx.Entry(oldLancamento).State = EntityState.Detached;
 
                 _ctx.Remove(lancamento);
 
