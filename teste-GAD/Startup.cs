@@ -33,7 +33,7 @@ namespace teste_GAD
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "V1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Teste GAD", Version = "V1" });
             });
 
             // In production, the React files will be served from this directory
