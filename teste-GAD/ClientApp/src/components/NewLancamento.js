@@ -26,7 +26,12 @@ export class NewLancamento extends Component {
     render() {
 
         return (
-            <FormLancamento isEdit={false}/>
+            <div>
+                <h3 id="tabelLabel" >Novo Lançamento</h3>
+                <br />
+                <FormLancamento isEdit={false} />
+            </div>
+
         )
 
     }

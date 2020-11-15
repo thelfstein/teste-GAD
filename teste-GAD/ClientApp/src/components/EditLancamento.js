@@ -11,7 +11,6 @@ export class EditLancamento extends Component {
         this.state = {
             loading: true
         };
-
     }
 
     componentDidMount() {
@@ -41,7 +40,9 @@ export class EditLancamento extends Component {
     async getLancamentoById(id) {
         MakeRequest({ url: 'LancamentoFinanceiro/GetLancamentoFinanceiroById?id=' + id }).then(resp => {
             const data = resp.data;
-            console.log(data);
+            if (data.status)
+                this.props.history.push('/');
+
             this.setState({ lancamentoData: data, loading: false });
         }).catch(err => {
             console.log(err.response);

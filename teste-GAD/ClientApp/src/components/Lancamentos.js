@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { MakeRequest } from "../util/HttpHandler"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 import { Button } from 'reactstrap'
 
@@ -14,14 +15,13 @@ export class Lancamentos extends Component {
         super(props);
 
         this.state = { lancamentos: [], loading: true };
-
     }
 
     componentDidMount() {
         this.getLancamentos();
-    }    
+    }
 
-    static renderLancamentos(lancamentos) {
+    renderLancamentos(lancamentos) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
@@ -41,7 +41,7 @@ export class Lancamentos extends Component {
                             <td>{l.tipoString}</td>
                             <td>{l.status ? "Sim" : "Não"}</td>
                             <td>
-                                <Button  title="Editar" disabled={l.status} size="sm">
+                                <Button title="Editar" disabled={l.status} size="sm" onClick={() => { this.props.history.push('/edit-lancamento/' + l.id) }} >
                                     <FontAwesomeIcon icon={faEdit} />
                                 </Button>
                             </td>
@@ -55,10 +55,12 @@ export class Lancamentos extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Carregando...</em></p>
-            : Lancamentos.renderLancamentos(this.state.lancamentos);
+            : this.renderLancamentos(this.state.lancamentos);
         return (
             <div>
                 <h3 id="tabelLabel" >Lançamentos Financeiros</h3>
+                <br />
+                <Link to='/new-lancamento/'><FontAwesomeIcon icon={faPlus} /> Adicionar Lançamento</Link>
                 {contents}
             </div>
         );
