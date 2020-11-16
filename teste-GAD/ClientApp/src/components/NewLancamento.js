@@ -21,7 +21,7 @@ export class NewLancamento extends Component {
 
         return (
             <div>
-                <h3 id="tabelLabel" >Novo Lançamento</h3>
+                <h3 id="tabelLabel" >Novo LanÃ§amento</h3>
                 <br />
                 <FormLancamento isEdit={false} history={this.props.history} />
             </div>

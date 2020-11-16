@@ -26,7 +26,7 @@ export class Lancamentos extends Component {
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>Data Hora Lançamento</th>
+                        <th>Data Hora LanÃ§amento</th>
                         <th>Valor</th>
                         <th>Tipo</th>
                         <th>Conciliado</th>
@@ -39,7 +39,7 @@ export class Lancamentos extends Component {
                             <td>{moment(l.dataHoraLancamento).format("DD/MM/YYYY HH:mm")}</td>
                             <td>{(l.valor).toLocaleString('pt-BR', {style:'currency',currency:'BRL'})}</td>
                             <td>{l.tipoString}</td>
-                            <td>{l.status ? "Sim" : "Não"}</td>
+                            <td>{l.status ? "Sim" : "NÃ£o"}</td>
                             <td>
                                 <Button title="Editar" disabled={l.status} size="sm" onClick={() => { this.props.history.push('/edit-lancamento/' + l.id) }} >
                                     <FontAwesomeIcon icon={faEdit} />
@@ -58,9 +58,9 @@ export class Lancamentos extends Component {
             : this.renderLancamentos(this.state.lancamentos);
         return (
             <div>
-                <h3 id="tabelLabel" >Lançamentos Financeiros</h3>
+                <h3 id="tabelLabel" >LanÃ§amentos Financeiros</h3>
                 <br />
-                <Link to='/new-lancamento/'><FontAwesomeIcon icon={faPlus} /> Adicionar Lançamento</Link>
+                <Link to='/new-lancamento/'><FontAwesomeIcon icon={faPlus} /> Adicionar LanÃ§amento</Link>
                 {contents}
             </div>
         );

@@ -28,7 +28,7 @@ namespace teste_GAD.Controllers
             try
             {
                 var data = await _ctx.LancamentosFinanceiros.ToListAsync();
-                return Ok(data);
+                return Ok(data.OrderBy(x=>x.DataHoraLancamento));
             }
             catch (Exception e)
             {

@@ -51,8 +51,8 @@ export class BalancoDiario extends Component {
                     <thead>
                         <tr>
                             <th>DataBalanco</th>
-                            <th>Valor Total Crédito</th>
-                            <th>Valor Total Débito</th>
+                            <th>Valor Total CrÃ©dito</th>
+                            <th>Valor Total DÃ©bito</th>
                             <th>Saldo</th>
                         </tr>
                     </thead>
@@ -75,12 +75,12 @@ export class BalancoDiario extends Component {
             : this.state.balancoDiario == null ? '' : this.renderBalanco();
         return (
             <div>
-                <h3 id="tabelLabel" >Balanço Diário</h3>
+                <h3 id="tabelLabel" >BalanÃ§o DiÃ¡rio</h3>
                 <br />
                 <Row>
                     <Col sm="3" md="3" lg="3">
                         <FormGroup>
-                            <Label for="dataBalanco">Data Balanço</Label>
+                            <Label for="dataBalanco">Data Balanï¿½o</Label>
                             <Input type="date" name="dataBalanco" id="dataBalanco" value={this.state.dataBalanco} onChange={this.handleInputChange} />
                         </FormGroup>
                     </Col>

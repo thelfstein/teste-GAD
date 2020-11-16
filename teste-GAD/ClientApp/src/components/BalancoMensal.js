@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { MakeRequest } from "../util/HttpHandler"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { Button, FormGroup, Label, Input, Row, Col, Alert } from 'reactstrap';
 import moment from 'moment'
-import { Button } from 'reactstrap'
 
 
 
@@ -14,63 +11,113 @@ export class BalancoMensal extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { lancamentos: [], loading: true };
+        this.state = {
+            balancoDiario: null,
+            loading: false,
+            dataBalanco: moment(new Date()).format("YYYY-MM")
+        };
+
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     componentDidMount() {
-        this.getLancamentos();
+        //this.getLancamentos();
     }
 
-    renderLancamentos(lancamentos) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Data Hora Lançamento</th>
-                        <th>Valor</th>
-                        <th>Tipo</th>
-                        <th>Conciliado</th>
-                        <th>-</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lancamentos.map(l =>
-                        <tr key={l.id}>
-                            <td>{moment(l.dataHoraLancamento).format("DD/MM/YYYY HH:mm")}</td>
-                            <td>{(l.valor).toLocaleString('pt-BR', {style:'currency',currency:'BRL'})}</td>
-                            <td>{l.tipoString}</td>
-                            <td>{l.status ? "Sim" : "Não"}</td>
-                            <td>
-                                <Button title="Editar" disabled={l.status} size="sm" onClick={() => { this.props.history.push('/edit-lancamento/' + l.id) }} >
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </Button>
-                            </td>
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event) {
+
+        let data = this.state.dataBalanco + '-01';
+
+        this.getBalancoMes(data);
+    }
+
+    renderBalanco() {
+
+        const balanco = this.state.balancoDiario;
+
+        let content
+
+        if (balanco.length === 0) {
+            content = <div>
+                <br />
+                <Alert color='danger'>NÃ£o hÃ¡ lanÃ§amentos para o mÃªs desejado</Alert>
+            </div>
+        } else {
+            content = <div>
+                <br />
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th>DataBalanco</th>
+                            <th>Valor Total CrÃ©dito</th>
+                            <th>Valor Total DÃ©bito</th>
+                            <th>Saldo</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
-        );
+                    </thead>
+                    <tbody>
+                        {balanco.map(b =>
+                            <tr key={b.dataBalanco}>
+                                <td>{moment(b.dataBalanco).format("DD/MM/YYYY")}</td>
+                                <td>{(b.valorTotalCredito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                <td>{(b.valorTotalDebito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                <td>{(b.valorSaldo).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        return content;
     }
 
     render() {
         let contents = this.state.loading
             ? <p><em>Carregando...</em></p>
-            : this.renderLancamentos(this.state.lancamentos);
+            : this.state.balancoDiario == null ? '' : this.renderBalanco();
         return (
             <div>
-                <h3 id="tabelLabel" >Lançamentos Financeiros</h3>
+                <h3 id="tabelLabel" >Balanï¿½o Diï¿½rio</h3>
                 <br />
-                <Link to='/new-lancamento/'><FontAwesomeIcon icon={faPlus} /> Adicionar Lançamento</Link>
+                <Row>
+                    <Col sm="3" md="3" lg="3">
+                        <FormGroup>
+                            <Label for="dataBalanco">Data Balanï¿½o</Label>
+                            <Input type="month" name="dataBalanco" id="dataBalanco" value={this.state.dataBalanco} onChange={this.handleInputChange} />
+                        </FormGroup>
+                    </Col>
+
+                </Row>
+                <Row>
+                    <Col md="1" sm="1" lg="1">
+                        <Button outline color="primary" onClick={() => this.handleSubmit()}>Consultar</Button>
+                    </Col>
+                </Row>
                 {contents}
             </div>
         );
     }
 
-    async getLancamentos() {
-        MakeRequest({ url: 'LancamentoFinanceiro/GetLancamentosFinanceiros' }).then(resp => {
+    async getBalancoMes(date) {
+        let url = `Balanco/GetBalancoByMonth?date=${date}`
+
+        this.setState({ loading: true });
+
+        MakeRequest({ url }).then(resp => {
             const data = resp.data;
-            this.setState({ lancamentos: data, loading: false });
+            this.setState({ balancoDiario: data, loading: false });
         }).catch(err => {
+            alert(err.message);
             console.log(err.response);
         });
     }

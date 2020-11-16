@@ -132,13 +132,13 @@ export class FormLancamento extends Component {
                     <Row>
                         <Col md="3" sm="3" lg="3">
                             <FormGroup>
-                                <Label for="horaLancamento">Data Lançamento</Label>
+                                <Label for="horaLancamento">Data LanÃ§amento</Label>
                                 <Input type="date" name="dataLancamento" id="dataLancamento" value={this.state.dataLancamento} onChange={this.handleInputChange} />
                             </FormGroup>
                         </Col>
                         <Col md="3" sm="3" lg="3">
                             <FormGroup>
-                                <Label for="dataLancamento">Hora Lançamento</Label>
+                                <Label for="dataLancamento">Hora LanÃ§amento</Label>
                                 <Input type="time" name="horaLancamento" id="horaLancamento" value={this.state.horaLancamento} onChange={this.handleInputChange} />
                             </FormGroup>
                         </Col>
@@ -152,8 +152,8 @@ export class FormLancamento extends Component {
                             <FormGroup>
                                 <Label for="tipoOperacao">Tipo</Label>
                                 <Input type="select" name="tipo" id="tipo" value={this.state.tipo} onChange={this.handleInputChange}>
-                                    <option value='C'>Crédito</option>
-                                    <option value='D'>Débito</option>
+                                    <option value='C'>CrÃ©dito</option>
+                                    <option value='D'>DÃ©bito</option>
                                 </Input>
                             </FormGroup>
                         </Col>
