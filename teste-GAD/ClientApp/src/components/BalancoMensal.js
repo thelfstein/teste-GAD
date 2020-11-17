@@ -43,7 +43,7 @@ export class BalancoMensal extends Component {
 
         let content
 
-        if (balanco.balancos.length === 0) {
+        if (balanco.length === 0) {
             content = <div>
                 <br />
                 <Alert color='danger'>Não há lançamentos para o mês desejado</Alert>
@@ -54,23 +54,24 @@ export class BalancoMensal extends Component {
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th>DataBalanco</th>
-                            <th>Valor Total Crédito</th>
-                            <th>Valor Total Débito</th>                            
+                            <th>Data</th>
+                            <th>Crédito</th>
+                            <th>Débito</th>
+                            <th>Saldo</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        {balanco.balancos.map(b =>
+                        {balanco.map(b =>
                             <tr key={b.dataBalanco}>
                                 <td>{moment(b.dataBalanco).format("DD/MM/YYYY")}</td>
                                 <td>{(b.valorTotalCredito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                 <td>{(b.valorTotalDebito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                <td>{(b.valorSaldoAcumulado).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
-                <br />
-                Balanço total: <strong>{ (balanco.valorSaldo).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }</strong>
+                <br />                
             </div>
         }
 

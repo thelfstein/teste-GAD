@@ -5,10 +5,10 @@ using System.Linq;
 namespace teste_GAD.Model
 {
     public class BalancoDia
-    {        
+    {
         public DateTime DataBalanco { get; set; }
         public decimal ValorTotalCredito { get; set; }
-        public decimal ValorTotalDebito { get; set; }                
+        public decimal ValorTotalDebito { get; set; }
         public decimal ValorSaldo
         {
             get
@@ -16,6 +16,7 @@ namespace teste_GAD.Model
                 return ValorTotalCredito - ValorTotalDebito;
             }
         }
+        public decimal ValorSaldoAcumulado { get; set; }
 
         public BalancoDia(IEnumerable<LancamentoFinanceiro> lancamentos, DateTime dataLancamentos)
         {
@@ -24,7 +25,8 @@ namespace teste_GAD.Model
             this.ValorTotalDebito = lancamentos.Where(x => x.Tipo == 'D').Sum(x => x.Valor.Value);
         }
 
-        public BalancoDia(){
+        public BalancoDia()
+        {
         }
     }
 }

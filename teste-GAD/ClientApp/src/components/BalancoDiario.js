@@ -50,9 +50,9 @@ export class BalancoDiario extends Component {
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th>DataBalanco</th>
-                            <th>Valor Total Crédito</th>
-                            <th>Valor Total Débito</th>
+                            <th>Data</th>
+                            <th>Crédito</th>
+                            <th>Débito</th>
                             <th>Saldo</th>
                         </tr>
                     </thead>
