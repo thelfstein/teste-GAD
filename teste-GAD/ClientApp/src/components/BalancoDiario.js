@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MakeRequest } from "../util/HttpHandler"
-import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Row, Col, FormFeedback } from 'reactstrap';
 import moment from 'moment'
 
 
@@ -46,7 +46,7 @@ export class BalancoDiario extends Component {
 
         return (
             <div>
-                <br/>
+                <br />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
@@ -80,15 +80,16 @@ export class BalancoDiario extends Component {
                 <Row>
                     <Col sm="3" md="3" lg="3">
                         <FormGroup>
-                            <Label for="dataBalanco">Data Balan�o</Label>
-                            <Input type="date" name="dataBalanco" id="dataBalanco" value={this.state.dataBalanco} onChange={this.handleInputChange} />
+                            <Label for="dataBalanco">Data Balanço</Label>
+                            <Input type="date" name="dataBalanco" id="dataBalanco" value={this.state.dataBalanco} invalid={this.state.dataBalanco === ''} onChange={this.handleInputChange} />
+                            <FormFeedback>Necessário preencher a data!</FormFeedback>
                         </FormGroup>
                     </Col>
 
                 </Row>
                 <Row>
                     <Col md="1" sm="1" lg="1">
-                        <Button outline color="primary" onClick={() => this.handleSubmit()}>Consultar</Button>
+                        <Button outline color="primary" onClick={() => this.handleSubmit()} disabled={this.state.dataBalanco === ''}>Consultar</Button>
                     </Col>
                 </Row>
                 {contents}

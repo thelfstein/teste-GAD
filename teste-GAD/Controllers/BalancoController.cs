@@ -27,7 +27,7 @@ namespace teste_GAD.Controllers
         {
             try
             {
-                var data = await _ctx.LancamentosFinanceiros.Where(x=>x.DataHoraLancamento.Date == date.Date).ToListAsync();
+                var data = await _ctx.LancamentosFinanceiros.Where(x=>x.DataHoraLancamento.Value.Date == date.Date).ToListAsync();
                 return Ok(new BalancoDia(data, date));
             }
             catch (Exception e)
@@ -42,13 +42,13 @@ namespace teste_GAD.Controllers
         {
             try
             {
-                var data = await _ctx.LancamentosFinanceiros.Where(x => x.DataHoraLancamento.Month == date.Month).ToListAsync();
+                var data = await _ctx.LancamentosFinanceiros.Where(x => x.DataHoraLancamento.Value.Month == date.Month).ToListAsync();
 
                 var balancoList = new List<BalancoDia>();
 
-                foreach(var dt in data.Select(x => x.DataHoraLancamento.Date).Distinct())
+                foreach(var dt in data.Select(x => x.DataHoraLancamento.Value.Date).Distinct())
                 {
-                    balancoList.Add(new BalancoDia(data.Where(x => x.DataHoraLancamento.Date == dt), dt));
+                    balancoList.Add(new BalancoDia(data.Where(x => x.DataHoraLancamento.Value.Date == dt), dt));
                 }
 
                 return Ok(balancoList);

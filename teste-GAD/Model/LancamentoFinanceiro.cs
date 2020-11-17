@@ -10,12 +10,12 @@ namespace teste_GAD.Model
         [Key]
         public int Id { get; set; }
         [Required]
-        public DateTime DataHoraLancamento { get; set; } = DateTime.Now;
-        public decimal Valor { get; set; }
+        public DateTime? DataHoraLancamento { get; set; }
+        public decimal? Valor { get; set; }
         //C - Crédito; D - Débito
-        public char Tipo { get; set; }
+        public char? Tipo { get; set; }
         //True - Conciliado; False - Não Conciliado
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         [NotMapped]
         public string TipoString

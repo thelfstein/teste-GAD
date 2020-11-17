@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Row, Col, FormFeedback } from 'reactstrap';
 import moment from 'moment'
 import { MakeRequest } from "../util/HttpHandler"
 
@@ -101,6 +101,9 @@ export class FormLancamento extends Component {
         this.props.history.push('/');
     }
 
+    isValid() {
+        return !(this.state.dataLancamento === '' || this.state.horaLancamento === '' || this.state.valor === '');
+    }
 
     render() {
         let conciliadoDiv = '';
@@ -123,7 +126,6 @@ export class FormLancamento extends Component {
             deleteDiv = <Col md="1" sm="1" lg="1">
                 <Button outline color="danger" onClick={() => this.handleDelete()}>Deletar</Button>
             </Col>
-
         }
 
         return (
@@ -133,19 +135,22 @@ export class FormLancamento extends Component {
                         <Col md="3" sm="3" lg="3">
                             <FormGroup>
                                 <Label for="horaLancamento">Data Lançamento</Label>
-                                <Input type="date" name="dataLancamento" id="dataLancamento" value={this.state.dataLancamento} onChange={this.handleInputChange} />
+                                <Input type="date" name="dataLancamento" id="dataLancamento" value={this.state.dataLancamento} invalid={this.state.dataLancamento === ''} onChange={this.handleInputChange} />
+                                <FormFeedback>Necessário preencher data!</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md="3" sm="3" lg="3">
                             <FormGroup>
                                 <Label for="dataLancamento">Hora Lançamento</Label>
-                                <Input type="time" name="horaLancamento" id="horaLancamento" value={this.state.horaLancamento} onChange={this.handleInputChange} />
+                                <Input type="time" name="horaLancamento" id="horaLancamento" value={this.state.horaLancamento} invalid={this.state.horaLancamento === ''} onChange={this.handleInputChange} />
+                                <FormFeedback>Necessário preencher hora!</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md="3" sm="3" lg="3">
                             <FormGroup>
                                 <Label for="valor">Valor</Label>
-                                <Input type="number" name="valor" id="valor" value={this.state.valor} onChange={this.handleInputChange} />
+                                <Input type="number" name="valor" id="valor" value={this.state.valor} invalid={this.state.valor === ''} onChange={this.handleInputChange} />
+                                <FormFeedback>Necessário preencher valor!</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md="3" sm="3" lg="3">
@@ -163,7 +168,7 @@ export class FormLancamento extends Component {
                 <br/>
                 <Row>
                     <Col md="1" sm="1" lg="1">
-                        <Button outline color="primary" onClick={() => this.handleSubmit()}>Salvar</Button>
+                        <Button outline color="primary" onClick={() => this.handleSubmit()} disabled={!this.isValid()}>Salvar</Button>
                     </Col>
                     {deleteDiv}
                 </Row>
@@ -193,7 +198,13 @@ export class FormLancamento extends Component {
             alert(isEdit ? 'Dado alterado com sucesso!' : isDelete ? 'Dado deletado com sucesso!' : 'Dado criado com sucesso!');
             this.redirectToHome();
         }).catch(err => {
-            alert('Erro:' + err.message);
+            if (err.response.data !== undefined) {
+                alert('Erro:' + err.response.data);
+            } else {
+                alert('Erro:' + err.message);
+            }
+
+            
         });
     }
 }

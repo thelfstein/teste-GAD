@@ -63,6 +63,8 @@ namespace teste_GAD.Controllers
             {
                 lancamento.Status = false;
 
+                ValidadeData(lancamento);
+
                 _ctx.LancamentosFinanceiros.Add(lancamento);
 
                 await _ctx.SaveChangesAsync();
@@ -86,10 +88,12 @@ namespace teste_GAD.Controllers
                 if (oldLancamento == null)
                     return NotFound();
 
-                if (oldLancamento.Status)
+                if (oldLancamento.Status.Value)
                     throw new Exception("O lançamento já foi conciliado");
 
                 _ctx.Entry(oldLancamento).State = EntityState.Detached;
+
+                ValidadeData(lancamento);
 
                 _ctx.Update(lancamento);
 
@@ -113,7 +117,7 @@ namespace teste_GAD.Controllers
                 if (oldLancamento == null)
                     return NotFound();
 
-                if (oldLancamento.Status)
+                if (oldLancamento.Status.Value)
                     throw new Exception("O lançamento já foi conciliado");
 
                 _ctx.Entry(oldLancamento).State = EntityState.Detached;
@@ -129,5 +133,32 @@ namespace teste_GAD.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        private void ValidadeData(LancamentoFinanceiro lancamento)
+        {
+            var retStr = "";
+            var isOk = true;
+
+            if (!lancamento.DataHoraLancamento.HasValue)
+            {
+                isOk = false;
+                retStr += "\n-Necessário preencher a data do lançamento";
+            }
+            if (!lancamento.Valor.HasValue)
+            {
+                isOk = false;
+                retStr += "\n-Necessário preencher o valor do lançamento";
+            }
+            if (!lancamento.Tipo.HasValue)
+            {
+                isOk = false;
+                retStr += "\n-Necessário preencher o tipo do lançamento";
+            }
+
+            if (!isOk)
+                throw new Exception(retStr);
+        }
     }
+
+    
 }

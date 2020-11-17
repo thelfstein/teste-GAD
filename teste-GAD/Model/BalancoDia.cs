@@ -20,8 +20,8 @@ namespace teste_GAD.Model
         public BalancoDia(IEnumerable<LancamentoFinanceiro> lancamentos, DateTime dataLancamentos)
         {
             DataBalanco = dataLancamentos;
-            ValorTotalCredito = lancamentos.Where(x => x.Tipo == 'C').Sum(x => x.Valor);
-            ValorTotalDebito = lancamentos.Where(x => x.Tipo == 'D').Sum(x => x.Valor);
+            ValorTotalCredito = lancamentos.Where(x => x.Tipo == 'C').Sum(x => x.Valor.Value);
+            ValorTotalDebito = lancamentos.Where(x => x.Tipo == 'D').Sum(x => x.Valor.Value);
         }
 
         public BalancoDia(){
