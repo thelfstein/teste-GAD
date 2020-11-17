@@ -12,16 +12,12 @@ export class BalancoMensal extends Component {
         super(props);
 
         this.state = {
-            balancoDiario: null,
+            balancoMensal: null,
             loading: false,
             dataBalanco: moment(new Date()).format("YYYY-MM")
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    componentDidMount() {
-        //this.getLancamentos();
     }
 
     handleInputChange(event) {
@@ -43,11 +39,11 @@ export class BalancoMensal extends Component {
 
     renderBalanco() {
 
-        const balanco = this.state.balancoDiario;
+        const balanco = this.state.balancoMensal;
 
         let content
 
-        if (balanco.length === 0) {
+        if (balanco.balancos.length === 0) {
             content = <div>
                 <br />
                 <Alert color='danger'>Não há lançamentos para o mês desejado</Alert>
@@ -60,21 +56,21 @@ export class BalancoMensal extends Component {
                         <tr>
                             <th>DataBalanco</th>
                             <th>Valor Total Crédito</th>
-                            <th>Valor Total Débito</th>
-                            <th>Saldo</th>
+                            <th>Valor Total Débito</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        {balanco.map(b =>
+                        {balanco.balancos.map(b =>
                             <tr key={b.dataBalanco}>
                                 <td>{moment(b.dataBalanco).format("DD/MM/YYYY")}</td>
                                 <td>{(b.valorTotalCredito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                 <td>{(b.valorTotalDebito).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                <td>{(b.valorSaldo).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
+                <br />
+                Balanço total: <strong>{ (balanco.valorSaldo).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }</strong>
             </div>
         }
 
@@ -84,10 +80,10 @@ export class BalancoMensal extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Carregando...</em></p>
-            : this.state.balancoDiario == null ? '' : this.renderBalanco();
+            : this.state.balancoMensal == null ? '' : this.renderBalanco();
         return (
             <div>
-                <h3 id="tabelLabel" >Balanço Diário</h3>
+                <h3 id="tabelLabel" >Balanço Mensal</h3>
                 <br />
                 <Row>
                     <Col sm="3" md="3" lg="3">
@@ -116,7 +112,7 @@ export class BalancoMensal extends Component {
 
         MakeRequest({ url }).then(resp => {
             const data = resp.data;
-            this.setState({ balancoDiario: data, loading: false });
+            this.setState({ balancoMensal: data, loading: false });
         }).catch(err => {
             alert(err.message);
             console.log(err.response);

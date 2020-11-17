@@ -51,7 +51,7 @@ namespace teste_GAD.Controllers
                     balancoList.Add(new BalancoDia(data.Where(x => x.DataHoraLancamento.Value.Date == dt), dt));
                 }
 
-                return Ok(balancoList);
+                return Ok(new BalancoMes(balancoList));
             }
             catch (Exception e)
             {
